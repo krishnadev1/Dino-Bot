@@ -1,8 +1,6 @@
 import asyncio
 
 import discord
-
-import requests
 from aiohttp import request
 from discord.ext import commands, tasks
 import os
