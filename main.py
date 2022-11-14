@@ -1,13 +1,16 @@
-import asyncio
 
 import discord
-from aiohttp import request
+
+import bot
+
 from discord.ext import commands, tasks
 import os
-import youtube_dl
+
 import random
 # import PyNaCl
 from discord.ext import commands
+import string
+import random
 
 TOKEN = 'MTA0MTQyMTg0NzQ1NzE2OTQwOA.GZldHG.RxwWBsiomhgNdRZYX5Ss-G9amN2_YU_Trp4qDY'
 
@@ -34,27 +37,13 @@ async def on_member_join(member):
 
 @client.event
 async def on_message(message):
-    username = str(message.author).split("#")[0]
-    channel = str(message.channel.name)
-    user_message = str(message.content)
-    print(user_message)
-    print(f'Message {user_message} by {username} on {channel}')
 
     if message.author == client.user:
         return
+    else:
+       await bot.command(message)
 
-    if user_message.lower().startswith('hello') or user_message.lower().startswith('hi'):
-        await message.channel.send(f'Hello {username}')
-        return
-    elif user_message.lower() == "bye":
-        await message.channel.send(f'Bye {username}')
-    elif user_message.lower() == "tell me a joke":
-        jokes = [" Can someone please shed more\
-            light on how my lamp got stolen?",
-                 "Why is she called llene? She stands on equal legs.",
-                 "What do you call a gazelle in a \
-                     lions territory? Denzel."]
-        await message.channel.send(random.choice(jokes))
+
 
 
 client.run(TOKEN)
