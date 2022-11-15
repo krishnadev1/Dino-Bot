@@ -1,4 +1,3 @@
-
 import discord
 
 import bot
@@ -17,6 +16,8 @@ TOKEN = 'MTA0MTQyMTg0NzQ1NzE2OTQwOA.GZldHG.RxwWBsiomhgNdRZYX5Ss-G9amN2_YU_Trp4qD
 intents = discord.Intents.default()
 intents.message_content = True
 client = discord.Client(intents=intents)
+
+
 # bot = commands.Bot(command_prefix='!', intents=intents)
 
 
@@ -37,13 +38,10 @@ async def on_member_join(member):
 
 @client.event
 async def on_message(message):
-
     if message.author == client.user:
         return
     else:
-       await bot.command(message)
-
-
+        await bot.command(message)
 
 
 client.run(TOKEN)

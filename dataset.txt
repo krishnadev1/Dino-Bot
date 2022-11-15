@@ -4,3 +4,4 @@
 !who created you= I am developed by Ansh and Krishnanand
 !bye= You are leaving this early? Well see you later then!!
 !i am bored= Go take a nap then '_'
+!dm=0
