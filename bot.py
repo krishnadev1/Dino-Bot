@@ -2,6 +2,8 @@ import discord
 import string
 import random
 import os
+import requests
+import csv
 
 file = open('dataset.txt', 'r')
 lst = file.read().splitlines()
@@ -46,6 +48,10 @@ async def command(message):
             elif user_message.lower().__contains__('savepass'):
                 passmanager(username, user_message)
                 await message.channel.send('Password saved to our server')
+            elif user_message.lower().startswith("!stock"):
+                company_name = user_message.split(" ")[1]
+                stdetails = stock_price(company_name)
+                await message.channel.send(stdetails)
             else:
                 key = list(dict.keys())
 
@@ -96,3 +102,25 @@ def passmanager(username, user_message):
         file = open(path + '\\' + website + ".txt", "a+")
         file.writelines(username + ":" + password + "\n")
         file.close()
+
+
+def stock_price(company_name):
+    try:
+        CSV_URL2 = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY_EXTENDED&symbol='
+        CSV_URL = CSV_URL2 + company_name + "&interval=15min&slice=year1month1&apikey=4Q2E15KNNAHLJH6C"
+        with requests.Session() as s:
+            download = s.get(CSV_URL)
+            decoded_content = download.content.decode('utf-8')
+            cr = csv.reader(decoded_content.splitlines(), delimiter=',')
+            my_list = list(cr)
+
+        times = my_list[1][0]
+        opens = my_list[1][1]
+        highs = my_list[1][2]
+        lows = my_list[1][3]
+        closes = my_list[1][4]
+        volumes = my_list[1][5]
+        userout = "Company Name: " + company_name + "\n\n" + "Time " + times + "\n" + "Opening Price: " + opens + "\n" + "High: " + highs + "\n" + "Low: " + lows + "\n" + "Closing Price: " + closes + "\n" + "Volume Traded: " + volumes
+    except:
+        userout = "Sorry😪\nCurrently we only support stocks listed in the International Market. We will soon be adding others too.\n\nTry accessing the stock of AMAZON by the command !stock AMZN"
+    return userout
